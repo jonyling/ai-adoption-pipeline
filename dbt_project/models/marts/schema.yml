@@ -1,0 +1,278 @@
+version: 2
+
+models:
+  # ─────────────────────────────────────────
+  # DimCompany
+  # ─────────────────────────────────────────
+  - name: dim_company
+    description: "Unique companies with their attributes"
+    columns:
+      - name: company_key
+        description: "Surrogate primary key"
+        tests:
+          - unique
+          - not_null
+
+      - name: company_id
+        description: "Natural key from source"
+        tests:
+          - unique
+          - not_null
+
+      - name: industry
+        tests:
+          - not_null
+
+      - name: num_employees
+        tests:
+          - not_null
+
+      - name: company_size
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Startup', 'SME', 'Enterprise', 'Large Enterprise']
+
+      - name: country
+        tests:
+          - not_null
+
+      - name: region
+        tests:
+          - not_null
+
+  # ─────────────────────────────────────────
+  # DimDate
+  # ─────────────────────────────────────────
+  - name: dim_date
+    description: "Unique survey time periods"
+    columns:
+      - name: date_key
+        description: "Surrogate primary key"
+        tests:
+          - unique
+          - not_null
+
+      - name: survey_year
+        tests:
+          - not_null
+          - accepted_values:
+              values: [2023, 2024, 2025, 2026]
+
+      - name: quarter
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Q1', 'Q2', 'Q3', 'Q4']
+
+      - name: year_quarter
+        tests:
+          - unique
+          - not_null
+
+      - name: is_latest_year
+        tests:
+          - not_null
+
+  # ─────────────────────────────────────────
+  # DimAITool
+  # ─────────────────────────────────────────
+  - name: dim_ai_tool
+    description: "Unique AI tools used by companies"
+    columns:
+      - name: ai_tool_key
+        description: "Surrogate primary key"
+        tests:
+          - unique
+          - not_null
+
+      - name: ai_primary_tool
+        tests:
+          - unique
+          - not_null
+
+      - name: tool_vendor_category
+        tests:
+          - not_null
+
+  # ─────────────────────────────────────────
+  # DimAIUseCase
+  # ─────────────────────────────────────────
+  - name: dim_ai_usecase
+    description: "Unique AI use cases"
+    columns:
+      - name: usecase_key
+        description: "Surrogate primary key"
+        tests:
+          - unique
+          - not_null
+
+      - name: ai_use_case
+        tests:
+          - unique
+          - not_null
+
+      - name: usecase_category
+        tests:
+          - not_null
+
+  # ─────────────────────────────────────────
+  # DimAIAdoptionStage
+  # ─────────────────────────────────────────
+  - name: dim_ai_adoption_stage
+    description: "Ordered AI maturity stages"
+    columns:
+      - name: stage_key
+        description: "Surrogate primary key"
+        tests:
+          - unique
+          - not_null
+
+      - name: adoption_stage
+        tests:
+          - unique
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Exploring', 'Piloting', 'Scaling', 'Optimizing', 'Transforming']
+
+      - name: stage_order
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5]
+
+      - name: stage_label
+        tests:
+          - unique
+          - not_null
+
+  # ─────────────────────────────────────────
+  # DimSurveySource
+  # ─────────────────────────────────────────
+  - name: dim_survey_source
+    description: "Unique survey sources and collection methods"
+    columns:
+      - name: source_key
+        description: "Surrogate primary key"
+        tests:
+          - unique
+          - not_null
+
+      - name: survey_source
+        tests:
+          - not_null
+
+      - name: data_collection_method
+        tests:
+          - not_null
+
+  # ─────────────────────────────────────────
+  # FactAISurvey
+  # ─────────────────────────────────────────
+  - name: fact_ai_survey
+    description: "Core fact table with all measures and FK references"
+    columns:
+      - name: survey_key
+        description: "Surrogate primary key"
+        tests:
+          - unique
+          - not_null
+
+      - name: response_id
+        description: "Natural key from source"
+        tests:
+          - unique
+          - not_null
+
+      - name: company_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_company')
+                field: company_key
+
+      - name: date_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+
+      - name: ai_tool_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_ai_tool')
+                field: ai_tool_key
+
+      - name: usecase_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_ai_usecase')
+                field: usecase_key
+
+      - name: stage_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_ai_adoption_stage')
+                field: stage_key
+
+      - name: source_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_survey_source')
+                field: source_key
+
+      - name: revenue_growth_percent
+        tests:
+          - not_null
+
+      - name: cost_reduction_percent
+        tests:
+          - not_null
+
+      - name: productivity_change_percent
+        tests:
+          - not_null
+
+      - name: task_automation_rate
+        tests:
+          - not_null
+
+      - name: jobs_displaced
+        tests:
+          - not_null
+
+      - name: jobs_created
+        tests:
+          - not_null
+
+      - name: num_ai_tools_used
+        tests:
+          - not_null
+
+      - name: ai_projects_active
+        tests:
+          - not_null
+
+      - name: net_jobs_change
+        description: "jobs_created - jobs_displaced"
+        tests:
+          - not_null
+
+      - name: ai_roi_index
+        description: "(revenue_growth_percent + cost_reduction_percent) / ai_budget_percentage"
+        tests:
+          - not_null
