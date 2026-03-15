@@ -73,6 +73,17 @@ left join dim_date     dd  on base.survey_year         = dd.survey_year
                           and base.quarter             = dd.quarter
 left join dim_ai_tool  dt  on base.ai_primary_tool     = dt.ai_primary_tool
 left join dim_usecase  du  on base.ai_use_case         = du.ai_use_case
-left join dim_stage    ds  on base.ai_adoption_stage   = ds.adoption_stage
+-- left join dim_stage    ds  on base.ai_adoption_stage   = ds.adoption_stage
 left join dim_source   dss on base.survey_source       = dss.survey_source
                           and base.data_collection_method = dss.data_collection_method
+
+ -- 6. CRITICAL FIX: Mapping Raw Adoption Stage to Standardized Dimension Labels
+left join dim_stage    ds  on (
+    case lower(base.ai_adoption_stage)
+        when 'none'    then 'Exploring'
+        when 'pilot'   then 'Piloting'
+        when 'partial' then 'Scaling'
+        when 'full'    then 'Transforming'
+        else 'Unknown'
+    end
+) = ds.adoption_stage                         

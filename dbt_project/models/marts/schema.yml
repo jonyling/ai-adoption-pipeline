@@ -115,7 +115,7 @@ models:
           - not_null
           - accepted_values:
               arguments:
-                values: ['Exploring', 'Piloting', 'Scaling', 'Optimizing', 'Transforming']
+                values: ['Exploring', 'Piloting', 'Scaling', 'Transforming', 'Unknown']
 
 
   # ─────────────────────────
