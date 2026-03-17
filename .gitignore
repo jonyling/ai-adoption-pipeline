@@ -229,4 +229,4 @@ great_expectations/uncommitted/
 .DS_Store
 
 # Virtual environments
-venv310/
+venv310/.DS_Store
