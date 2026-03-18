@@ -1,0 +1,155 @@
+✅ Panel ready: 140,000 observations, 10000 companies
+
+============================================================
+Running model for: revenue_growth_percent
+============================================================
+                                      Parameter Estimates                                      
+===============================================================================================
+                             Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+-----------------------------------------------------------------------------------------------
+ai_projects_lag1               -0.0232     0.0036    -6.4567     0.0000     -0.0303     -0.0162
+ai_maturity_score              -1.1116     0.2191    -5.0730     0.0000     -1.5411     -0.6822
+ai_adoption_rate                0.0534     0.0016     33.186     0.0000      0.0503      0.0566
+ai_budget_percentage           -0.0100     0.0057    -1.7356     0.0826     -0.0212      0.0013
+productivity_change_percent     0.3625     0.0033     109.74     0.0000      0.3560      0.3690
+===============================================================================================
+
+============================================================
+Running model for: productivity_change_percent
+============================================================
+                                  Parameter Estimates                                   
+========================================================================================
+                      Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+----------------------------------------------------------------------------------------
+ai_projects_lag1        -0.0512     0.0029    -17.367     0.0000     -0.0570     -0.0454
+ai_maturity_score        24.158     0.1680     143.78     0.0000      23.829      24.488
+ai_adoption_rate         0.0639     0.0013     48.179     0.0000      0.0613      0.0665
+ai_budget_percentage    -0.0917     0.0047    -19.634     0.0000     -0.1008     -0.0825
+========================================================================================
+
+============================================================
+Running model for: net_jobs_change
+============================================================
+                                  Parameter Estimates                                   
+========================================================================================
+                      Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+----------------------------------------------------------------------------------------
+ai_projects_lag1         0.1074     0.0827     1.2993     0.1938     -0.0546      0.2695
+ai_maturity_score        55.848     4.6823     11.927     0.0000      46.670      65.025
+ai_adoption_rate        -0.3022     0.0381    -7.9339     0.0000     -0.3768     -0.2275
+ai_budget_percentage     0.0373     0.1294     0.2882     0.7732     -0.2163      0.2909
+========================================================================================
+
+================================================================================
+SUMMARY OF LAGGED AI PROJECTS EFFECT ACROSS ALL THREE OUTCOMES
+================================================================================
+                    Outcome  Coef (lag AI projects)  Std Err  p-value Significant (5%)
+     revenue_growth_percent                 -0.0232   0.0036   0.0000              Yes
+productivity_change_percent                 -0.0512   0.0029   0.0000              Yes
+            net_jobs_change                  0.1074   0.0827   0.1938               No
+
+# Panel Fixed-Effects Analysis  
+**Lagged Impact of Active AI Projects**  
+(Revenue Growth, Productivity Change, Net Jobs Change)
+
+## Model Setup
+- **Dataset**: ~140,000 quarterly observations from 10,000 companies  
+  (most companies have 14–15 quarters of data)
+- **Panel structure**: Company fixed effects + Quarter fixed effects
+- **Key predictor**: `ai_projects_lag1` — number of active AI projects in the **previous quarter**
+- **Controls**: `ai_maturity_score`, `ai_adoption_rate`, `ai_budget_percentage`
+- **Additional control** (revenue model only): `productivity_change_percent`
+- **Standard errors**: Clustered by company (entity)
+- **Estimation**: `linearmodels.PanelOLS`
+
+## 1. Revenue Growth (%)
+
+**Key coefficient table**
+
+| Variable                    | Coefficient | Std. Error | t-stat   | p-value | 95% CI Lower | 95% CI Upper |
+|-----------------------------|-------------|------------|----------|---------|--------------|--------------|
+| ai_projects_lag1            | -0.0232     | 0.0036     | -6.46    | <0.001  | -0.0303      | -0.0162      |
+| ai_maturity_score           | -1.1116     | 0.2191     | -5.07    | <0.001  | -1.5411      | -0.6822      |
+| ai_adoption_rate            | 0.0534      | 0.0016     | 33.19    | <0.001  | 0.0503       | 0.0566       |
+| ai_budget_percentage        | -0.0100     | 0.0057     | -1.74    | 0.083   | -0.0212      | 0.0013       |
+| productivity_change_percent | 0.3625      | 0.0033     | 109.74   | <0.001  | 0.3560       | 0.3690       |
+
+### Interpretation
+- **Lagged AI projects**: -0.0232 (p < 0.001)  
+  → Each additional project last quarter is linked to **0.023 pp lower** revenue growth this quarter.  
+  Small but highly significant.
+- Productivity gains remain the strongest driver of revenue.
+- Current adoption rate shows a clear positive same-quarter effect.
+- Maturity score has a counterintuitive negative association (possible saturation).
+
+**Business insight**  
+Running a high number of concurrent AI projects appears to create short-term drag on revenue — likely from resource reallocation, disruption, or experimentation costs.
+
+## 2. Productivity Change (%)
+
+**Key coefficient table**
+
+| Variable              | Coefficient | Std. Error | t-stat  | p-value | 95% CI Lower | 95% CI Upper |
+|-----------------------|-------------|------------|---------|---------|--------------|--------------|
+| ai_projects_lag1      | -0.0512     | 0.0029     | -17.37  | <0.001  | -0.0570      | -0.0454      |
+| ai_maturity_score     | 24.158      | 0.1680     | 143.78  | <0.001  | 23.829       | 24.488       |
+| ai_adoption_rate      | 0.0639      | 0.0013     | 48.18   | <0.001  | 0.0613       | 0.0665       |
+| ai_budget_percentage  | -0.0917     | 0.0047     | -19.63  | <0.001  | -0.1008      | -0.0825      |
+
+### Interpretation
+- **Lagged AI projects**: -0.0512 (p < 0.001)  
+  → Each extra project last quarter → **0.051 pp lower** productivity gain this quarter.  
+  Clear and economically meaningful negative effect.
+- Maturity score dominates (+24 pp per unit increase).
+- Higher budget percentage is associated with lower productivity gains (possible diminishing returns).
+
+**Business insight**  
+Too many simultaneous projects appear to dilute focus and reduce short-term productivity improvements — likely due to coordination overhead, change fatigue, or resource spreading.
+
+## 3. Net Jobs Change (created – displaced)
+
+**Key coefficient table**
+
+| Variable              | Coefficient | Std. Error | t-stat  | p-value | 95% CI Lower | 95% CI Upper |
+|-----------------------|-------------|------------|---------|---------|--------------|--------------|
+| ai_projects_lag1      | 0.1074      | 0.0827     | 1.30    | 0.194   | -0.0546      | 0.2695       |
+| ai_maturity_score     | 55.848      | 4.6823     | 11.93   | <0.001  | 46.670       | 65.025       |
+| ai_adoption_rate      | -0.3022     | 0.0381     | -7.93   | <0.001  | -0.3768      | -0.2275      |
+| ai_budget_percentage  | 0.0373      | 0.1294     | 0.29    | 0.773   | -0.2163      | 0.2909       |
+
+### Interpretation
+- **Lagged AI projects**: +0.1074 (p = 0.194)  
+  → Small positive direction, but **not statistically significant**.
+- Maturity score shows a very large positive effect (+56 net jobs per unit).
+- Current adoption rate is significantly negative (linked to more net displacement).
+
+**Business insight**  
+No strong evidence that more projects in one quarter cause net job destruction (or strong creation) in the next. Maturity remains the primary driver of net job creation.
+
+## Summary – Lagged AI Projects Effect (ai_projects_lag1)
+
+| Outcome                   | Coefficient | Std. Err | p-value | Significant? | Plain English Summary                              |
+|---------------------------|-------------|----------|---------|--------------|----------------------------------------------------|
+| **Revenue Growth %**      | **-0.0232** | 0.0036   | **<0.001** | **Yes**      | Small negative short-term effect                   |
+| **Productivity Change %** | **-0.0512** | 0.0029   | **<0.001** | **Yes**      | Moderate negative short-term effect                |
+| Net Jobs Change           | +0.1074     | 0.0827   | 0.194   | No           | No reliable short-term effect (slightly positive, noisy) |
+
+## Key Strategic Takeaways
+
+- **Quantity ≠ Quality**  
+  More active AI projects in a given quarter show **negative short-term associations** with revenue and productivity — not the positive signal one might expect.
+
+- **Maturity is the real driver**  
+  Higher `ai_maturity_score` is strongly linked to better productivity (+24 pp) and net job creation (+56 jobs).
+
+- **Short-term disruption exists**  
+  High project volume may lead to temporary costs (resource strain, learning curves, internal friction).
+
+- **Employment nuance**  
+  No accelerated net job loss from more projects in the short run. Deeper maturity supports net creation.
+
+- **Implications for leaders**  
+  - Prioritize **maturity and implementation quality** over sheer project count  
+  - Avoid overloading teams with too many parallel initiatives  
+  - Track and accelerate progression toward higher maturity stages
+
