@@ -124,6 +124,33 @@ DimCompany ──── FactAISurvey ──── DimAITool
 | tool_vendor_category | dim_ai_tool | grouped from ai_primary_tool |
 | usecase_category | dim_ai_usecase | grouped from ai_use_case |
 
+
+---
+
+## Key Findings
+
+1. **Quarterly Trends** — Productivity and revenue growth
+   trend upward as AI adoption matures over time
+2. **Top Industries** — Industries with highest AI ROI
+   show significantly higher automation rates
+3. **Adoption Stage Segmentation** — Companies in later
+   stages show higher ROI and positive net jobs change
+4. **Workforce Impact** — Large enterprises displace more
+   jobs but also create more; SMEs show better net ratio
+5. **Regional Analysis** — Regional digital maturity
+   correlates strongly with AI ROI index
+
+---
+
+## Resources
+
+| Resource | Link |
+|----------|------|
+| 📊 Presentation | [View Slides](docs/presentation/AI_Adoption_Pipeline_Presentation.pdf) |
+| 📋 Data Quality Report | [View Report](docs/data_quality_summary.md) |
+| 🔬 Data Quality Notebook | [View Notebook](notebooks/data_quality_testing.ipynb) |
+| 📈 EDA Analysis Notebook | [View Notebook](notebooks/eda_analysis.ipynb) |
+
 ---
 
 ## Setup Instructions
@@ -195,20 +222,7 @@ jupyter notebook
 - jobs_displaced >= 0
 
 📋 **[View Full Data Quality Report](docs/data_quality_summary.md)**
----
 
-## Key Findings
-
-1. **Quarterly Trends** — Productivity and revenue growth
-   trend upward as AI adoption matures over time
-2. **Top Industries** — Industries with highest AI ROI
-   show significantly higher automation rates
-3. **Adoption Stage Segmentation** — Companies in later
-   stages show higher ROI and positive net jobs change
-4. **Workforce Impact** — Large enterprises displace more
-   jobs but also create more; SMEs show better net ratio
-5. **Regional Analysis** — Regional digital maturity
-   correlates strongly with AI ROI index
 
 ---
 
