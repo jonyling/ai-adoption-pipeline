@@ -217,7 +217,6 @@ jupyter notebook
 
 📄 **[View dbt Test Results](docs/dbt_test_results.txt)**
 
-![dbt Test Results Screenshot](docs/dbt_test_results.png)
 
 ### Custom SQL Tests (notebook)
 | Category | Tests |
