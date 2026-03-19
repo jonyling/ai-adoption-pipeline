@@ -1,10 +1,17 @@
+
+
 # AI Adoption & Workforce Impact — Data Pipeline
 
 A end-to-end data engineering project that ingests, transforms,
 tests, and analyzes global AI adoption data across industries and countries.
 
 ---
+## Presentation
 
+The executive presentation slides are available here:
+[📊 View Presentation](docs/presentation/AI_Adoption_Pipeline_Presentation.pdf)
+
+---
 ## Architecture Overview
 ```
 CSV Files (Kaggle)
