@@ -6,7 +6,12 @@ A end-to-end data engineering project that ingests, transforms,
 tests, and analyzes global AI adoption data across industries and countries.
 
 ---
+## Presentation
 
+The executive presentation slides are available here:
+[📊 View Presentation](docs/presentation/AI_Adoption_Pipeline_Presentation.pdf)
+
+---
 ## Architecture Overview
 ```
 CSV Files (Kaggle)
@@ -124,27 +129,34 @@ DimCompany ──── FactAISurvey ──── DimAITool
 
 ## Key Findings
 
-1. **Quarterly Trends** — Productivity and revenue growth
-   trend upward as AI adoption matures over time
-2. **Top Industries** — Industries with highest AI ROI
-   show significantly higher automation rates
-3. **Adoption Stage Segmentation** — Companies in later
-   stages show higher ROI and positive net jobs change
-4. **Workforce Impact** — Large enterprises displace more
-   jobs but also create more; SMEs show better net ratio
-5. **Regional Analysis** — Regional digital maturity
-   correlates strongly with AI ROI index
+1. **Quarterly Trends** — Productivity grew from ~8.4% to ~10.4%
+   and task automation rose from ~17% to ~22% between 2023–2026
 
----
+2. **Industry Analysis** — Logistics leads AI ROI (~1.3) while
+   Technology, despite highest productivity gains, shows lowest
+   ROI (~0.9) due to diminishing returns
 
-## Resources
+3. **Adoption Stage Segmentation** — Transforming companies achieve
+   6–8× higher productivity gains than Exploring companies;
+   Scaling stage drives the strongest net job creation
 
-| Resource | Link |
-|----------|------|
-| 📊 Presentation | [View Slides](docs/presentation/AI_Adoption_Pipeline_Presentation.pdf) |
-| 📋 Data Quality Report | [View Report](docs/data_quality_summary.md) |
-| 🔬 Data Quality Notebook | [View Notebook](notebooks/data_quality_testing.ipynb) |
-| 📈 EDA Analysis Notebook | [View Notebook](notebooks/eda_analysis.ipynb) |
+4. **Workforce Impact** — Enterprise companies drive almost all
+   net job creation; higher automation correlates with job growth,
+   not destruction
+
+5. **Regional Analysis** — Oceania and North America lead in ROI;
+   Asia dominates net job creation due to scale
+
+6. **AI Maturity vs Outcomes** — Maturity is the strongest
+   predictor of productivity (r = 0.73) and revenue growth
+   (r = 0.41); employment effects remain near-neutral
+
+7. **Strategic Insight** — More concurrent AI projects show
+   short-term drag on performance; quality of implementation
+   matters more than quantity
+
+The full exploratory data analysis notebook is available here:
+[📈 View EDA Analysis Notebook](notebooks/eda_analysis1.ipynb)
 
 ---
 
@@ -203,6 +215,10 @@ jupyter notebook
 - `relationships` for all foreign keys in fact table
 - `accepted_values` for categorical fields
 
+📄 **[View dbt Test Results](docs/dbt_test_results.txt)**
+
+![dbt Test Results Screenshot](docs/dbt_test_results.png)
+
 ### Custom SQL Tests (notebook)
 | Category | Tests |
 |----------|-------|
@@ -218,6 +234,8 @@ jupyter notebook
 
 📋 **[View Full Data Quality Report](docs/data_quality_summary.md)**
 
+The full data quality testing notebook is available here:
+[🔬 View Data Quality Notebook](notebooks/data_quality_testing.ipynb)
 
 ---
 
